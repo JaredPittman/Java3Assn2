@@ -12,16 +12,15 @@ public class DatabaseManager {
 
     static final String DB_URL = "jdbc:mariadb://127.0.0.1:3308";
     static final String USER = "root";
-    static final String PASS = "root";
+    static final String PASS = "lpbroot";
 //    static final String JAVA_BOOKS_DB_URL = "jdbc:mariadb://127.0.0.1:3308/books?user=root&password=root";
-    static final String JAVA_BOOKS_DB_URL = "jdbc:mariadb://127.0.0.1:3308/books?user=root&password=root";
+    static final String JAVA_BOOKS_DB_URL = "jdbc:mariadb://127.0.0.1:3308/books?user=root&password=lpbroot";
     static final String QUERY_ALL_AUTHORS = "SELECT * FROM authors;";
     static final String QUERY_ALL_TITLES = "SELECT * FROM titles;";
     static final String QUERY_ALL_AUTHORISBN = "SELECT * FROM authorISBN;";
 
     /**
      * This method returns a list of authors
-     * @param connection
      * @return
      * @throws SQLException
      */
@@ -42,7 +41,6 @@ public class DatabaseManager {
 
     /**
      * This method returns a list of books
-     * @param connection
      * @return
      * @throws SQLException
      */

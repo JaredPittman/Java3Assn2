@@ -1,23 +1,18 @@
 package com.example.assn2;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.core.Response;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "library-data", value = "/library-data")
-public class Servlet extends HttpServlet {
+public class LibraryData extends HttpServlet {
 
 
 
@@ -39,6 +34,7 @@ public class Servlet extends HttpServlet {
             DatabaseManager.createBooksAuthorList(bookList, authorList, DatabaseManager.getAuthorISBN());
             if(view.equals("books")){
                 for (Book book : bookList) {
+
                     out.println("<h1>" + book.getTitle() + "</h1>");
                     out.println("<h2>" + book.getIsbn() + "</h2>");
                     out.println("<h2>" + book.getEdNumber() + "</h2>");
