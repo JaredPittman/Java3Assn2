@@ -1,23 +1,18 @@
 package com.example.assn2;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.core.Response;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "library-data", value = "/library-data")
-public class Servlet extends HttpServlet {
+public class LibraryData extends HttpServlet {
 
 
 
@@ -65,7 +60,7 @@ public class Servlet extends HttpServlet {
 
                 for (Author author : authorList) {
                     out.println("<tr>");
-                    out.println("<td><h1>" + author.getAuthorFirstName() + " " + author.getAuthorLastName() + "</h1></td>");
+                    out.println("<td><h1>" + author.getAuthorFirstName() + " " + author.getAuthorLastName() + "   ID:" + author.getAuthorID() + "</h1></td>");
                     out.println("<td>");
                     for (Book book : author.getBooks()) {
                         out.println("<h2>" + book.getTitle() + "</h2>");
@@ -97,14 +92,13 @@ public class Servlet extends HttpServlet {
                 book.setEdNumber(Integer.valueOf(request.getParameter("edition_number")));
                 book.setCopyright(request.getParameter("copyright"));
                 DatabaseManager.addBook(book);
-                DatabaseManager.addAuthorISBN(request.getParameter("isbn"), request.getIntHeader("author_id"));
+                DatabaseManager.addAuthorISBN(request.getParameter("isbn"), Integer.parseInt(request.getParameter("author_id")));
                 out.println("Book added successfully");
                 out.println("<a href='index.jsp'>Back</a>");
             }
             catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         else if(view.equals("add_author")){
             try{
