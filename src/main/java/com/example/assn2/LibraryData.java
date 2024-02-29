@@ -1,18 +1,23 @@
 package com.example.assn2;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.core.Response;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "library-data", value = "/library-data")
-public class LibraryData extends HttpServlet {
+public class Servlet extends HttpServlet {
 
 
 
@@ -33,25 +38,44 @@ public class LibraryData extends HttpServlet {
             DatabaseManager.createAuthorsBookList(bookList, authorList, DatabaseManager.getAuthorISBN());
             DatabaseManager.createBooksAuthorList(bookList, authorList, DatabaseManager.getAuthorISBN());
             if(view.equals("books")){
-                for (Book book : bookList) {
+                out.println("<table>");
+                out.println("<tr><th>Title</th><th>ISBN</th><th>Edition Number</th><th>Authors</th></tr>");
 
-                    out.println("<h1>" + book.getTitle() + "</h1>");
-                    out.println("<h2>" + book.getIsbn() + "</h2>");
-                    out.println("<h2>" + book.getEdNumber() + "</h2>");
+                for (Book book : bookList) {
+                    out.println("<tr>");
+                    out.println("<td>" + book.getTitle() + "</td>");
+                    out.println("<td>" + book.getIsbn() + "</td>");
+                    out.println("<td>" + book.getEdNumber() + "</td>");
+                    out.println("<td>");
                     for (Author author : book.getAuthors()) {
-                        out.println("<h3>" + author.getAuthorFirstName() + " " + author.getAuthorLastName() + "</h3>");
+                        out.println(author.getAuthorFirstName() + " " + author.getAuthorLastName() + "<br>");
                     }
+                    out.println("<p>---------------------</p>");
+                    out.println("</td>");
+                    out.println("</tr>");
                 }
+
+                out.println("</table>");
 //                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
 //                request.setAttribute("booklist", bookList);
 //                requestDispatcher.forward(request, response);
             } else if(view.equals("authors")){
+                out.println("<table>");
+                out.println("<tr><th>Author</th><th>Books</th></tr>");
+
                 for (Author author : authorList) {
-                    out.println("<h1>" + author.getAuthorFirstName() + " " + author.getAuthorLastName() + "</h1>");
+                    out.println("<tr>");
+                    out.println("<td><h1>" + author.getAuthorFirstName() + " " + author.getAuthorLastName() + "</h1></td>");
+                    out.println("<td>");
                     for (Book book : author.getBooks()) {
                         out.println("<h2>" + book.getTitle() + "</h2>");
                     }
+                    out.println("<p>---------------------</p>");
+                    out.println("</td>");
+                    out.println("</tr>");
                 }
+
+                out.println("</table>");
             }
         } catch (SQLException e) {
             e.printStackTrace();
